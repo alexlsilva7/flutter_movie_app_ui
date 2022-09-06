@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app_ui/models/movie.dart';
+import 'package:flutter_movie_app_ui/screens/movie_player_screen.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
+import '../components/custom_back_button.dart';
 
 class MovieScreen extends StatelessWidget {
   const MovieScreen({super.key, required this.movie});
@@ -15,74 +18,84 @@ class MovieScreen extends StatelessWidget {
         children: [
           ..._buildBackground(context, movie),
           _buildMovieInformation(context),
-          Positioned(
-              bottom: 50,
-              width: MediaQuery.of(context).size.width,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.all(20),
-                          backgroundColor: Colors.red[400],
-                          fixedSize: Size(
-                              MediaQuery.of(context).size.width * 0.425, 50),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15))),
-                      onPressed: () {},
-                      child: RichText(
-                        text: TextSpan(
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(color: Colors.white),
-                            children: [
-                              TextSpan(
-                                text: 'Add to ',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                              ),
-                              const TextSpan(text: 'Watchlist'),
-                            ]),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.all(20),
-                          backgroundColor: Colors.white,
-                          fixedSize: Size(
-                              MediaQuery.of(context).size.width * 0.425, 50),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15))),
-                      onPressed: () {},
-                      child: RichText(
-                        text: TextSpan(
-                            style: Theme.of(context).textTheme.bodyLarge!,
-                            children: [
-                              TextSpan(
-                                text: 'Start ',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(fontWeight: FontWeight.bold),
-                              ),
-                              const TextSpan(text: 'Watching'),
-                            ]),
-                      ),
-                    ),
-                  ],
-                ),
-              ))
+          _buildActions(context),
+          const Positioned(
+            left: 10,
+            top: 10,
+            child: CustomBackButton(),
+          ),
         ],
       ),
     );
+  }
+
+  Positioned _buildActions(BuildContext context) {
+    return Positioned(
+        bottom: 50,
+        width: MediaQuery.of(context).size.width,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.all(20),
+                    backgroundColor: Colors.red[400],
+                    fixedSize:
+                        Size(MediaQuery.of(context).size.width * 0.425, 50),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15))),
+                onPressed: () {},
+                child: RichText(
+                  text: TextSpan(
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(color: Colors.white),
+                      children: [
+                        TextSpan(
+                          text: 'Add to ',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                        ),
+                        const TextSpan(text: 'Watchlist'),
+                      ]),
+                ),
+              ),
+              const SizedBox(width: 8),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.all(20),
+                    backgroundColor: Colors.white,
+                    fixedSize:
+                        Size(MediaQuery.of(context).size.width * 0.425, 50),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15))),
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (ctx) => MoviePlayer(movie: movie))),
+                child: RichText(
+                  text: TextSpan(
+                      style: Theme.of(context).textTheme.bodyLarge!,
+                      children: [
+                        TextSpan(
+                          text: 'Start ',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        const TextSpan(text: 'Watching'),
+                      ]),
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 
   Positioned _buildMovieInformation(BuildContext context) {
