@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app_ui/models/movie.dart';
 
@@ -24,11 +25,15 @@ class MovieListItem extends StatelessWidget {
                     listItemContext: context,
                   ),
                   children: [
-                    Image.network(
-                      movie.imagePath,
+                    CachedNetworkImage(
+                      imageUrl: movie.imagePath,
                       width: double.infinity,
                       key: backgroundImageKey,
                       fit: BoxFit.cover,
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
                   ]),
               Positioned.fill(
