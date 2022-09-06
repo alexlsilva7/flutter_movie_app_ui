@@ -19,10 +19,12 @@ class MovieScreen extends StatelessWidget {
           ..._buildBackground(context, movie),
           _buildMovieInformation(context),
           _buildActions(context),
-          const Positioned(
-            left: 10,
-            top: 10,
-            child: CustomBackButton(),
+          const SafeArea(
+            child: Positioned(
+              left: 10,
+              top: 10,
+              child: CustomBackButton(),
+            ),
           ),
         ],
       ),
