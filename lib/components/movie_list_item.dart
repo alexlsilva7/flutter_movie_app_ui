@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app_ui/models/movie.dart';
 
+import '../screens/movie_screen.dart';
+
 class MovieListItem extends StatelessWidget {
   MovieListItem({super.key, required this.movie});
 
@@ -16,62 +18,64 @@ class MovieListItem extends StatelessWidget {
         aspectRatio: 16 / 9,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(15),
-          child: Stack(
-            children: [
-              Flow(
-                  delegate: _ParallaxFlowDelegate(
-                    scrollable: Scrollable.of(context)!,
-                    backgroundImageKey: backgroundImageKey,
-                    listItemContext: context,
-                  ),
-                  children: [
-                    CachedNetworkImage(
-                      imageUrl: movie.imagePath,
-                      width: double.infinity,
-                      key: backgroundImageKey,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) =>
-                          const CircularProgressIndicator(),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+          child: InkWell(
+            onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (ctx) => MovieScreen(movie: movie))),
+            child: Stack(
+              children: [
+                Flow(
+                    delegate: _ParallaxFlowDelegate(
+                      scrollable: Scrollable.of(context)!,
+                      backgroundImageKey: backgroundImageKey,
+                      listItemContext: context,
                     ),
-                  ]),
-              Positioned.fill(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.transparent,
-                        Colors.black.withOpacity(0.7),
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      stops: const [0.6, 0.95],
+                    children: [
+                      CachedNetworkImage(
+                        imageUrl: movie.imagePath,
+                        width: double.infinity,
+                        key: backgroundImageKey,
+                        fit: BoxFit.cover,
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                      ),
+                    ]),
+                Positioned.fill(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withOpacity(0.7),
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        stops: const [0.6, 0.95],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                left: 20,
-                bottom: 20,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      movie.name,
-                      style: Theme.of(context).textTheme.headline6!.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      '${movie.year} | ${movie.category} | ${movie.duration.inHours}h ${movie.duration.inMinutes}m',
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-              )
-            ],
+                Positioned(
+                  left: 20,
+                  bottom: 20,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        movie.name,
+                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '${movie.year} | ${movie.category} | ${movie.duration.inHours}h ${movie.duration.inMinutes}m',
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
