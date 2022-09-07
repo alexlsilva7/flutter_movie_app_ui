@@ -40,19 +40,17 @@ class _MoviePlayerState extends State<MoviePlayer> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Chewie(
-              controller: chewieController,
-            ),
-            const Positioned(
-              left: 10,
-              top: 10,
-              child: CustomBackButton(),
-            ),
-          ],
-        ),
+      body: Stack(
+        children: [
+          Chewie(
+            controller: chewieController,
+          ),
+          const Positioned(
+            left: 10,
+            top: 20,
+            child: CustomBackButton(),
+          ),
+        ],
       ),
     );
   }
